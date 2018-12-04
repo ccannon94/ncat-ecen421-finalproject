@@ -72,14 +72,61 @@ The purpose of this project is to create a design using a Texas Instruments MSP4
 \section{Design Process}
 
 \subsection{Research}
-The first step in our research process was to ascertain the capabilities of the Analog Discovery. While the MSP432 was somewhat of a known quantity, neither one of us had significant experience with the Analog Discovery. Through this research, we found that the Analog Discovery had digital I/O pins and the ability to control them with JavaScript \cite{staticio} \cite{ioscript}.
+The first step in our research process was to ascertain the capabilities of the Analog Discovery. While the MSP432 was somewhat of a known quantity, neither one of us had significant experience with the Analog Discovery. Through this research, we found that the Analog Discovery had digital I/O pins and the ability to control them with JavaScript \cite{staticio} \cite{ioscript}. Once we realized that capability, we were able to quickly implement our design.
 
 \subsection{UML Activity Diagram}
 
+There are two basic activities taking place in our design. The first, main activity shown in Figure ~\ref{fig:mainuml} waits for the Analog Discovery to identify the component and simply displays the appropriate output on the LCD screen. The analysis subactivity shown in Figure ~\ref{fig:analuml} shows how the Analog Discovery decides what type of component it is connected to.
+
+\begin{figure}[H]
+\begin{center}
+	\includegraphics[width=\textwidth]{./img/MainUML.png}
+	\caption{\label{fig:mainuml}IMain UML Activity Diagram}
+\end{center}
+\end{figure}
+
+\begin{figure}[H]
+\begin{center}
+	\includegraphics[width=\textwidth]{./img/AnalysisUML.png}
+	\caption{\label{fig:analuml}Analysis Subactivity UML Diagram}
+\end{center}
+\end{figure}
+
 \subsection{Block Diagrams}
 
+\begin{figure}[H]
+\begin{center}
+	\includegraphics[width=\textwidth]{./img/level0.png}
+	\caption{\label{fig:lvl0}Level 0 Block Diagram}
+\end{center}
+\end{figure}
+
+\begin{figure}[H]
+\begin{center}
+	\includegraphics[width=\textwidth]{./img/level1.png}
+	\caption{\label{fig:lvl1}Level 1 Block Diagram}
+\end{center}
+\end{figure}
+
+\subsection{MSP432 Pin Assignments}
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{| l | l | l |}
+	\hline
+	\textbf{Signal Name} & \textbf{Analog Discovery Output} & \textbf{MSP432 Input} \\ \hline
+	Resistor Detected Pin & DIO0 & P3.0 \\ \hline
+	Diode Detected Pin & DIO1 & P3.6  \\ \hline
+	Capacitor Detected Pin & DIO2 & P3.3 \\ \hline
+	Inductor Detected Pin & DIO3 & P3.2  \\ \hline
+\end{tabular}
+\caption{\label{tab:pins}Pin assignments between the Analog Discovery and the MSP432 Launchpad}
+\end{center}
+\end{table}
+
 \section{Conclusion}
-% Add conclusion here
+
+With the design specified above, we were able to successfully identify diodes, resisters, inductors, and capaciters. We were able to communicate this with the MSP432 and display the output on the BoosterPack LCD screen. This project was challenging because we had to use more I/O pins than usual. This led us to researching how to control \textit{any} I/O pin, beyond the limited examples we had mostly used thus far. We were lucky to find the DriverLib functions that greatly simplified our use of input pins \cite{textbook}.
 
 \pagebreak
 
@@ -127,6 +174,12 @@ The first step in our research process was to ascertain the capabilities of the 
  w3schools, \\ 
  Refsnes Data, \\
  \verb!https://www.w3schools.com/js/js_functions.asp!
-
+ 
+\bibitem{textbook}
+ {\"U}nsalan, Cem, et al. , \\
+ \textit{Programmable Microcontrollers: Applications on the MSP432 LaunchPad}, \\
+ McGraw-Hill, \\
+ 2018
+ 
 \end{thebibliography}
 \end{document}
