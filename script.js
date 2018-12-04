@@ -1,10 +1,14 @@
 function detectPhaseShift(sig, res, sigMax, resMax) {
-    print("Given sig: " + sig + " Given res: " + res + " Given sigMax: " + sigMax + " Given resMax: " + resMax);
+    print("Given sig: " + sig + " Given res: " + res + " Given sigMax: " + sigMax + " Given resMax: " + resMax); 
     if(sigMax - sig < sigMax && resMax - res > resMax) {
-        return true;
+        if(sig - res > 0.01 || sig - res < -0.01) {
+            return true;
+        }
     }
     if(sigMax - sig > sigMax && resMax - res < resMax) {
-        return true;
+        if(sig - res > 0.01 || sig - res < -0.01) {
+            return true;
+        }
      }
     print("nope")
     return false;
@@ -16,12 +20,12 @@ function doScopeWavegen(){
     Wavegen1.Channel1.Simple.Offset.value = 0.5;
     Scope1.Trigger.Trigger.text = "Repeated";
     Wavegen1.run();
-    Scope1.run();
+    Scope1.run(); 
     StaticIO.Channel0.Mode.text = "I/Os";
     StaticIO.Channel0.DIO0.Mode.text = "LED";
-    StaticIO.Channel0.DIO0.Mode.text = "LED";
-    StaticIO.Channel0.DIO0.Mode.text = "LED";
-    StaticIO.Channel0.DIO0.Mode.text = "LED";
+    StaticIO.Channel0.DIO1.Mode.text = "LED";
+    StaticIO.Channel0.DIO2.Mode.text = "LED";
+    StaticIO.Channel0.DIO3.Mode.text = "LED";
     StaticIO.Channel0.DIO0.text = "0";
     StaticIO.Channel0.DIO1.text = "0";
     StaticIO.Channel0.DIO2.text = "0";
@@ -38,7 +42,7 @@ function doScopeWavegen(){
         print("Response Min: " + responseMin);
 
         // Detect Inductor
-        if(signalMax - responseMax < 0.1 && signalMax - responseMax > -0.1 && responseMin < -0.1) {
+        if(signalMax - responseMax < 0.1 && signalMax - responseMax > -0.1) {
             StaticIO.Channel0.DIO3.text = "1";
         } else {
             StaticIO.Channel0.DIO3.text = "0";
@@ -57,7 +61,7 @@ function doScopeWavegen(){
             StaticIO.Channel0.DIO0.text = "1";
         } else {
             StaticIO.Channel0.DIO0.text = "0";
-        }
+        } 
 
         var numTruth = 0;
         // Detect Capacitor
