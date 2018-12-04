@@ -26,7 +26,7 @@ function doScopeWavegen(){
     StaticIO.Channel0.DIO1.text = "0";
     StaticIO.Channel0.DIO2.text = "0";
     StaticIO.Channel0.DIO3.text = "0";
-    for(var idx = 0; wait(1) && idx < 100; idx++){
+    for(var idx = 0; wait(1) && idx < 10000000; idx++){
         if(!Scope1.wait()){
             return;
         }
@@ -38,7 +38,7 @@ function doScopeWavegen(){
         print("Response Min: " + responseMin);
 
         // Detect Inductor
-        if(signalMax - responseMax < 0.1 && signalMax - responseMax > -0.1) {
+        if(signalMax - responseMax < 0.1 && signalMax - responseMax > -0.1 && responseMin < -0.1) {
             StaticIO.Channel0.DIO3.text = "1";
         } else {
             StaticIO.Channel0.DIO3.text = "0";
@@ -74,7 +74,7 @@ function doScopeWavegen(){
                 print("FOUND A THING FOUND A THING!!!!!");
             }
         }
-        if(numTruth > 0) {
+        if(numTruth > 0 && responseMin < -0.1) {
             StaticIO.Channel0.DIO2.text = "1";
         } else {
             StaticIO.Channel0.DIO2.text = "0";
