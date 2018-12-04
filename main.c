@@ -1,4 +1,13 @@
-
+/******************************************************************************************
+ * This code works on an MSP432 with an Analog Discovery device and LaunchPad Educational
+ * BoosterPack to identify if the electrical component hooked to the system is a
+ * capacitor, diode, resistor, or inductor. It reads in outputs from the
+ * Analog Discovery using digital I/O pins P3.0, P3.2, P3.3, and P3.6 and uses this to
+ * identify the component. It Displays the results on the LCD screen of the LaunchPad
+ * Educational BoosterPack.
+ *
+ * Coded by Christopher Cannon and Abbigail Waddell on 12/03/2018
+ ******************************************************************************************/
 #include "msp.h"
 #include <driverlib.h>
 #include <grlib.h>
@@ -9,7 +18,6 @@
 Graphics_Context g_sContext;
 
 int device = 0;
-int cntr;
 int main(void)
 {
     // Hold the watchdog
@@ -59,6 +67,7 @@ int main(void)
   MAP_GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P4, GPIO_PIN4, GPIO_TERTIARY_MODULE_FUNCTION);
   MAP_GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P1, GPIO_PIN0, GPIO_TERTIARY_MODULE_FUNCTION);
 
+  /*Configures P3.0, P3.2, P3.3, P3.6 as input pins with pull up resistors */
   GPIO_setAsInputPinWithPullUpResistor(GPIO_PORT_P3, GPIO_PIN0);
   GPIO_setAsInputPinWithPullUpResistor(GPIO_PORT_P3, GPIO_PIN2);
   GPIO_setAsInputPinWithPullUpResistor(GPIO_PORT_P3, GPIO_PIN3);
@@ -85,8 +94,7 @@ int main(void)
    MAP_Interrupt_enableMaster();
 
    /* Setting up the sample timer to automatically step through the sequence
-    * convert.
-    */
+    * convert.*/
    MAP_ADC14_enableSampleTimer(ADC_AUTOMATIC_ITERATION);
 
    /* Triggering the start of the sample */
@@ -134,6 +142,7 @@ void ADC14_IRQHandler(void)
              device = 0;
          }
 
+        //Displays Capacitor on the LCD screen
         if(device == 1){
         char string[8];
         sprintf(string,"Capacitor");
@@ -144,6 +153,7 @@ void ADC14_IRQHandler(void)
                                     50,
                                     OPAQUE_TEXT);
         }
+        //Displays Diode on the LCD screen
         else if(device == 2){
          char string[8];
          sprintf(string,"   Diode   ");
@@ -154,6 +164,7 @@ void ADC14_IRQHandler(void)
                                      50,
                                      OPAQUE_TEXT);
         }
+        //Displays Resistor on the LCD screen
          else if(device == 3){
           char string[8];
           sprintf(string," Resistor ");
@@ -164,6 +175,7 @@ void ADC14_IRQHandler(void)
                                       50,
                                       OPAQUE_TEXT);
          }
+        //Displays Inductor on the LCD screen
           else if(device == 4){
            char string[8];
            sprintf(string," Inductor ");
@@ -174,6 +186,7 @@ void ADC14_IRQHandler(void)
                                        50,
                                        OPAQUE_TEXT);
           }
+        //Displays the word Nothing on the LCD screen
            else if(device == 0){
             char string[8];
             sprintf(string,"Nothing");
